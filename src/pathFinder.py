@@ -164,15 +164,18 @@ def orderedcross(vertices, edges):
     sgn *= sgnnew
   return sgn
 
+
 # Check if the given vertex is a vertex of the given graph.
 def isVertex(v, G):
-  return (G['V'] == v).all(axis=1).any()
+    if isinstance(G, dict) and 'V' in G:
+        return any([v == vertex for vertex in G['V']])
+    return False
 
 # Find the index of the given vertex in the given graph.
 def findIndexOfVertex(v, G):
-  try:
-    return np.where((G['V'] == v).all(axis=1))[0][0]
-  except:
+    for i, vertex in enumerate(G['V']):
+        if np.array_equal(vertex, v):
+            return i
     return -1
 
 # Find the successors of the given vertex in the given graph.

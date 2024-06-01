@@ -1,7 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-
-plt.rcParams['figure.figsize'] = [10, 10] # This is to adjust the image size on Jupyter
 
 def undirectedconnectiongraph(xnum=30, ynum=30):
   G = {'V':[], 'E':[]} # We will use a dictionary for simplicity
@@ -33,30 +30,14 @@ def east(xind, yind):
 def isvertex(node, vertices):
   return node in vertices
 
-def plotgraph(G, vertexflag=True):
-  for e in G['E']:
-    vec = np.array([e[1][0]-e[0][0], e[1][1]-e[0][1]])
-    ort = np.array([-vec[1], vec[0]])
-    olen = np.linalg.norm(ort)
-    ort = ort / olen
-    sum = np.array([(e[1][0]+e[0][0])/2, (e[1][1]+e[0][1])/2])
-    startp = sum - ort / 2
-    endp = sum + ort / 2
-    plt.plot((startp[0], endp[0]), (startp[1], endp[1]), 'k', linewidth=10)
-    if vertexflag:
-      for v in G['V']:
-        plt.plot(float(v[0]), float(v[1]), 'ro')
-  plt.axis('square')
-  plt.show()
-
 def randomnode(vertices):
   vertices = list(vertices)
   randind = np.random.randint(0, len(vertices))
   return vertices[randind]
 
-
 # Returns the walls W from the Edges of G that builds up a maze.
-def primsmaze(G = undirectedconnectiongraph(20,20)):
+def generateMaze(rows=20, cols=20):
+  G = undirectedconnectiongraph(rows, cols)
   assert(type(G) == dict), "The undirected connection graph shall be a dictionary."
   assert('E' in G.keys()), "The undirected connection graph shall have a key as 'E' for the edges."
   assert('V' in G.keys()), "The undirected connection graph shall have a key as 'V' for the vertices."
@@ -99,4 +80,5 @@ def primsmaze(G = undirectedconnectiongraph(20,20)):
             if not w in L:
               L.add(w)
     L.remove(l)
-  return W
+
+  return { 'V': G['V'], 'E': W }
