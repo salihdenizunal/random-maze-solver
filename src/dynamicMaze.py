@@ -30,12 +30,17 @@ class DynamicMaze:
         # Add or remove walls
         row = random.randint(0, self.rows - 1)
         col = random.randint(0, self.cols - 1)
+
+        buffer = min(self.rows, self.cols)
+
         start = (row, col)
         # Randomly select the direction of the end vertex (up, down, left, right)
         direction = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
         end = (start[0] + direction[0], start[1] + direction[1])
         wall = (start, end)
         if self.has_wall(wall):
+            if len(self.maze['W']) + buffer < len(self.maze['V']):
+                return
             self.remove_wall(wall)  # Remove wall
 
             calculatedPath = self.findPath()
@@ -44,6 +49,8 @@ class DynamicMaze:
             else:
                 self.path = calculatedPath
         else:
+            if len(self.maze['W']) - buffer > len(self.maze['V']) :
+                return
             self.add_wall(wall)  # Add wall
 
             calculatedPath = self.findPath()
