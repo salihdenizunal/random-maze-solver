@@ -2,7 +2,7 @@ import numpy as np
 import randomNumberGenerator
 
 def undirectedconnectiongraph(xnum=30, ynum=30):
-  G = {'V':[], 'E':[]} # We will use a dictionary for simplicity
+  G = {'V':[], 'W':[]} # We will use a dictionary for simplicity
   for xind in range(xnum):
     for yind in range(ynum):
       G['V'].append((xind, yind))
@@ -11,13 +11,13 @@ def undirectedconnectiongraph(xnum=30, ynum=30):
   for pt in G['V']:
     vtn = north(pt[0], pt[1])
     if isvertex(vtn, G['V']):
-      G['E'].append((pt, vtn))
+      G['W'].append((pt, vtn))
 
   # Traverse east second
   for pt in G['V']:
     vte = east(pt[0], pt[1])
     if isvertex(vte, G['V']):
-      G['E'].append((pt, vte))
+      G['W'].append((pt, vte))
   return G
 
 def north(xind, yind):
@@ -37,14 +37,14 @@ def randomnode(vertices, randomNumber):
   randind = (generated % len(vertices))
   return generated, vertices[randind]
 
-# Returns the walls W from the Edges of G that builds up a maze.
+# Returns the walls W from the walls of G that builds up a maze.
 def generateMaze(rows=20, cols=20, randomNumber = None):
   if randomNumber is None:
     randomNumber = randomNumberGenerator.lcg2()
 
   G = undirectedconnectiongraph(rows, cols)
   assert(type(G) == dict), "The undirected connection graph shall be a dictionary."
-  assert('E' in G.keys()), "The undirected connection graph shall have a key as 'E' for the edges."
+  assert('W' in G.keys()), "The undirected connection graph shall have a key as 'W' for the walls."
   assert('V' in G.keys()), "The undirected connection graph shall have a key as 'V' for the vertices."
   assert(len(G) == 2), "The undirected connection graph shall only have 2 keys."
 
@@ -53,7 +53,7 @@ def generateMaze(rows=20, cols=20, randomNumber = None):
   C = set()
 
   # All connections have walls.
-  W = G['E'].copy()
+  W = G['W'].copy()
 
   # Set of walls to check out L.
   L = set()
@@ -86,4 +86,4 @@ def generateMaze(rows=20, cols=20, randomNumber = None):
               L.add(w)
     L.remove(l)
 
-  return { 'V': G['V'], 'E': W }
+  return { 'V': G['V'], 'W': W }

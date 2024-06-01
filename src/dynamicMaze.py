@@ -15,16 +15,16 @@ class DynamicMaze:
         self.end = (rows - 1, cols - 1)  # End position
         self.path = self.findPath()
 
-    def has_edge(self, edge):
-        return edge in self.maze['E']
+    def has_wall(self, wall):
+        return wall in self.maze['W']
 
-    def remove_edge(self, edge):
-        if self.has_edge(edge):
-            self.maze['E'].remove(edge)
+    def remove_wall(self, wall):
+        if self.has_wall(wall):
+            self.maze['W'].remove(wall)
 
-    def add_edge(self, edge):
-        if not self.has_edge(edge):
-            self.maze['E'].append(edge)
+    def add_wall(self, wall):
+        if not self.has_wall(wall):
+            self.maze['W'].append(wall)
 
     def updateMaze(self):
         # Generate random number to decide whether to add or remove walls
@@ -37,21 +37,21 @@ class DynamicMaze:
         # Randomly select the direction of the end vertex (up, down, left, right)
         direction = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
         end = (start[0] + direction[0], start[1] + direction[1])
-        edge = (start, end)
-        if self.has_edge(edge):
-            self.remove_edge(edge)  # Remove wall
+        wall = (start, end)
+        if self.has_wall(wall):
+            self.remove_wall(wall)  # Remove wall
 
             calculatedPath = self.findPath()
             if calculatedPath is None:
-                self.add_edge(edge)
+                self.add_wall(wall)
             else:
                 self.path = calculatedPath
         else:
-            self.add_edge(edge)  # Add wall
+            self.add_wall(wall)  # Add wall
 
             calculatedPath = self.findPath()
             if calculatedPath is None:
-                self.remove_edge(edge)
+                self.remove_wall(wall)
             else:
                 self.path = calculatedPath
 
@@ -73,7 +73,7 @@ class DynamicMaze:
         for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
             x, y = i + dx, j + dy
             neighbor = (x, y)
-            if (vertex, neighbor) in self.maze['E'] or (neighbor, vertex) in self.maze['E']:
+            if (vertex, neighbor) in self.maze['W'] or (neighbor, vertex) in self.maze['W']:
                 continue
             if self.isVertex(neighbor):
                 adjacent_vertices.append(self.findIndexOfVertex(neighbor))
@@ -84,7 +84,7 @@ class DynamicMaze:
         graph = {'V': [], 'E': []}
         graph['V'] = self.maze['V']
 
-        # Create edges between adjacent vertices (excluding walls)
+        # Create walls between adjacent vertices (excluding walls)
         for vertex in self.maze['V']:
             for neighbor_id in self.get_adjacent_vertices(vertex):
                 graph['E'].append((self.findIndexOfVertex(vertex), neighbor_id))

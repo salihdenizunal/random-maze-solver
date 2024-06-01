@@ -9,8 +9,8 @@ def plotgraph(G, path = None, vertexflag=False):
     # Clear the previous plot
     plt.clf()
     
-    # Plot the edges of the maze
-    for e in G['E']:
+    # Plot the walls of the maze
+    for e in G['W']:
         vec = np.array([e[1][0]-e[0][0], e[1][1]-e[0][1]])
         ort = np.array([-vec[1], vec[0]])
         olen = np.linalg.norm(ort)
