@@ -47,9 +47,11 @@ def main():
     plt.rcParams['figure.figsize'] = [10, 10]
 
     # Initialize dynamic maze
-    dynamic_maze = DynamicMaze(20, 20)
+    dynamic_maze = DynamicMaze(10, 10)
     
     # Plot the initial maze
+    counter = 0
+    print("Iteration %d", counter)
     plotgraph(dynamic_maze.maze, dynamic_maze.path)
 
     # Get the Tk window and maximize it
@@ -57,12 +59,11 @@ def main():
     figManager.window.state('zoomed')
     plt.pause(1)  # Add a small pause to allow for plot updates
 
-    counter = 0
     # Main loop
     while True:
-        counter += 1
         # Update maze
         dynamic_maze.updateMaze()  # Update maze every iteration
+        counter += 1
         print("Iteration %d",counter)
         # Find path
         plotgraph(dynamic_maze.maze, dynamic_maze.path)
