@@ -27,9 +27,6 @@ class DynamicMaze:
             self.maze['W'].append(wall)
 
     def updateMaze(self):
-        # Generate random number to decide whether to add or remove walls
-        random_val = randomNumberGenerator.lcg2(startingval=self.startingVal)  # Pass a new random starting value
-        self.startingVal = random_val
         # Add or remove walls
         row = random.randint(0, self.rows - 1)
         col = random.randint(0, self.cols - 1)
