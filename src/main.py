@@ -1,10 +1,11 @@
+#%% 
 import matplotlib.pyplot as plt
 from dynamicMaze import DynamicMaze
 import time
 import numpy as np
 
 # Function to plot the maze graph
-def plotgraph(G, vertexflag=False):
+def plotgraph(G, path = None, vertexflag=True):
     # Clear the previous plot
     plt.clf()
     
@@ -24,10 +25,18 @@ def plotgraph(G, vertexflag=False):
         for v in G['V']:
             plt.plot(float(v[0]), float(v[1]), 'ro')
     
+    # Plot the path if provided
+    if path:
+        path_coords = [G['V'][i] for i in path]
+        path_x = [coord[0] for coord in path_coords]
+        path_y = [coord[1] for coord in path_coords]
+        plt.plot(path_x, path_y, 'b', linewidth=2)
+
     # Set plot properties
     plt.axis('square')
     plt.draw()
     plt.pause(0.001)  # Add a small pause to allow for plot updates
+
 
 # Main function
 def main():
@@ -41,8 +50,9 @@ def main():
     dynamic_maze = DynamicMaze(20, 20)
     
     # Plot the initial maze
-    plotgraph(dynamic_maze.maze)
-    
+    path = dynamic_maze.findPath()
+    plotgraph(dynamic_maze.maze, path)
+
     # Get the Tk window and maximize it
     figManager = plt.get_current_fig_manager()
     figManager.window.state('zoomed')
@@ -51,12 +61,11 @@ def main():
     # Main loop
     while True:
         # Update maze
-        dynamic_maze.updateMaze(1)  # Update maze every iteration
-        plotgraph(dynamic_maze.maze)  # Update the plot
+        dynamic_maze.updateMaze(20)  # Update maze every iteration
 
         # Find path
         path = dynamic_maze.findPath()
-        print("Path found:", path)
+        plotgraph(dynamic_maze.maze, path)
 
         # Sleep for a while before the next iteration
         # time.sleep(1)
@@ -64,3 +73,5 @@ def main():
 # Execute main function
 if __name__ == "__main__":
     main()
+
+# %%

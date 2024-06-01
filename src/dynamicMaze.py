@@ -2,6 +2,7 @@ import mazeGenerator
 import pathFinder
 import randomNumberGenerator
 import random
+import numpy as np
 
 class DynamicMaze:
     def __init__(self, rows, cols):
@@ -43,5 +44,58 @@ class DynamicMaze:
                 else:
                     self.add_edge(edge)  # Add wall
 
+    def findIndexOfVertex(self, v):
+        for i, vertex in enumerate(self.maze['V']):
+            if np.array_equal(vertex, v):
+                return i
+        return -1
+    
+    def isVertex(self, v):
+        if isinstance(self.maze, dict) and 'V' in self.maze:
+            return any([v == vertex for vertex in self.maze['V']])
+        return False
+
+    def get_adjacent_vertices(self, vertex):
+        i, j = vertex
+        rows, cols = len(self.maze['V']), len(self.maze['V'][0])
+        adjacent_vertices = []
+        for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            x, y = i + dx, j + dy
+            neighbor = (x, y)
+            if (vertex, neighbor) in self.maze['E'] or (neighbor, vertex) in self.maze['E']:
+                continue
+            if self.isVertex(neighbor):
+                adjacent_vertices.append(self.findIndexOfVertex(neighbor))
+        return adjacent_vertices
+
+    def construct_graph(self):
+        # Add vertices from the maze
+        graph = {'V': [], 'E': []}
+        graph['V'] = self.maze['V']
+
+        # Create edges between adjacent vertices (excluding walls)
+        for vertex in self.maze['V']:
+            for neighbor_id in self.get_adjacent_vertices(vertex):
+                graph['E'].append((self.findIndexOfVertex(vertex), neighbor_id))
+        return graph
+
     def findPath(self):
-        return pathFinder.A_star(self.maze, self.start, self.end)
+        aStarMap = pathFinder.A_star(self.construct_graph(), self.start, self.end)
+        if aStarMap is None:
+            return None
+
+        shortestPath = []
+        indexOf_startVertex = self.findIndexOfVertex(self.start)
+        indexOf_endVertex = self.findIndexOfVertex(self.end)
+
+        shortestPath.append(indexOf_endVertex)
+        while indexOf_endVertex != indexOf_startVertex:
+            temp = aStarMap[indexOf_endVertex]
+            shortestPath.append(temp)
+            indexOf_endVertex = temp
+        shortestPath.reverse()
+
+        if shortestPath[0] == indexOf_startVertex:
+            return shortestPath
+        else:
+            return []  # No valid path found

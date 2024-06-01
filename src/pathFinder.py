@@ -248,3 +248,5 @@ def A_star(G, s, r):
         g[(indexOf_s, indexOf_u)] = g[(indexOf_s, indexOf_v)] + heuristicMeasure(v, u)
         pi[indexOf_u] = indexOf_v
         h[(indexOf_u, indexOf_r)] =  heuristicMeasure(u, r)
+
+  return None
