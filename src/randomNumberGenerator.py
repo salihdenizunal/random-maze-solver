@@ -1,9 +1,5 @@
 import numpy as np
 
-# lcg2 declaration
-def lcg2(): pass
-
-
 def modulosum(x, y, m):
     assert (x >= 0 and y >= 0), "0 ≤ x, y"
     assert (x <= m-1 and y <= m-1), "x, y ≤ m − 1"
@@ -15,16 +11,6 @@ def modulosum(x, y, m):
         return x + y
     else:
         return (x - (m - y)) % m
-
-def lcgrandom(fun=lcg2, modulus=2**32-1, multiplier=367, increment=314, initval=1, num=1):
-    # Check conditions
-    assert(fun==lcg2), "This function can only be used with lcg2 function."
-    randlist = []; # Create an empty list to populate
-    for ind in range(num):
-        val = fun(modulus, multiplier, increment, initval)
-        initval = val # Set the previous random number as the new seed
-        randlist.append(val) # Append to the list
-    return np.array(randlist)
 
 # Second LCG implementation in the book (p.21 in the 2017 edition)
 def lcg2(modulus=2**31-1, multiplier=16807, increment=0, startingval=1):

@@ -61,7 +61,7 @@ def main():
     # Main loop
     while True:
         # Update maze
-        dynamic_maze.updateMaze(20)  # Update maze every iteration
+        dynamic_maze.updateMaze(200)  # Update maze every iteration
 
         # Find path
         path = dynamic_maze.findPath()
