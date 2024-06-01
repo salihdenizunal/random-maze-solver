@@ -13,6 +13,7 @@ class DynamicMaze:
         self.maze = mazeGenerator.generateMaze(rows, cols)
         self.start = (0, 0)  # Start position
         self.end = (rows - 1, cols - 1)  # End position
+        self.path = self.findPath()
 
     def has_edge(self, edge):
         return edge in self.maze['E']
@@ -25,8 +26,11 @@ class DynamicMaze:
         if not self.has_edge(edge):
             self.maze['E'].append(edge)
 
-    def updateMaze(self, updateFactor=1):
-        for _ in range(updateFactor):
+    def updateMaze(self, updateFactor = 10):
+        self.maze = mazeGenerator.generateMaze(self.rows, self.cols)
+        self.path = self.findPath()
+        return
+        for _ in range(int((self.rows*self.cols)/updateFactor)):
             # Generate random number to decide whether to add or remove walls
             random_val = randomNumberGenerator.lcg2(startingval=self.startingVal)  # Pass a new random starting value
             self.startingVal = random_val
@@ -41,8 +45,20 @@ class DynamicMaze:
                 edge = (start, end)
                 if self.has_edge(edge):
                     self.remove_edge(edge)  # Remove wall
+
+                    calculatedPath = self.findPath()
+                    if calculatedPath is None:
+                        self.add_edge(edge)
+                    else:
+                        self.path = calculatedPath
                 else:
                     self.add_edge(edge)  # Add wall
+
+                    calculatedPath = self.findPath()
+                    if calculatedPath is None:
+                        self.remove_edge(edge)
+                    else:
+                        self.path = calculatedPath
 
     def findIndexOfVertex(self, v):
         for i, vertex in enumerate(self.maze['V']):
@@ -98,4 +114,4 @@ class DynamicMaze:
         if shortestPath[0] == indexOf_startVertex:
             return shortestPath
         else:
-            return []  # No valid path found
+            return None  # No valid path found

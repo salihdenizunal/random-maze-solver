@@ -5,7 +5,7 @@ import time
 import numpy as np
 
 # Function to plot the maze graph
-def plotgraph(G, path = None, vertexflag=True):
+def plotgraph(G, path = None, vertexflag=False):
     # Clear the previous plot
     plt.clf()
     
@@ -50,8 +50,7 @@ def main():
     dynamic_maze = DynamicMaze(20, 20)
     
     # Plot the initial maze
-    path = dynamic_maze.findPath()
-    plotgraph(dynamic_maze.maze, path)
+    plotgraph(dynamic_maze.maze, dynamic_maze.path)
 
     # Get the Tk window and maximize it
     figManager = plt.get_current_fig_manager()
@@ -61,11 +60,10 @@ def main():
     # Main loop
     while True:
         # Update maze
-        dynamic_maze.updateMaze(200)  # Update maze every iteration
+        dynamic_maze.updateMaze()  # Update maze every iteration
 
         # Find path
-        path = dynamic_maze.findPath()
-        plotgraph(dynamic_maze.maze, path)
+        plotgraph(dynamic_maze.maze, dynamic_maze.path)
 
         # Sleep for a while before the next iteration
         # time.sleep(1)
