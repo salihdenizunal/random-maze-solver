@@ -1,4 +1,5 @@
 import numpy as np
+import randomNumberGenerator
 
 def undirectedconnectiongraph(xnum=30, ynum=30):
   G = {'V':[], 'E':[]} # We will use a dictionary for simplicity
@@ -30,13 +31,17 @@ def east(xind, yind):
 def isvertex(node, vertices):
   return node in vertices
 
-def randomnode(vertices):
+def randomnode(vertices, randomNumber):
   vertices = list(vertices)
-  randind = np.random.randint(0, len(vertices))
-  return vertices[randind]
+  generated = randomNumberGenerator.lcg2(startingval=randomNumber)
+  randind = (generated % len(vertices))
+  return generated, vertices[randind]
 
 # Returns the walls W from the Edges of G that builds up a maze.
-def generateMaze(rows=20, cols=20):
+def generateMaze(rows=20, cols=20, randomNumber = None):
+  if randomNumber is None:
+    randomNumber = randomNumberGenerator.lcg2()
+
   G = undirectedconnectiongraph(rows, cols)
   assert(type(G) == dict), "The undirected connection graph shall be a dictionary."
   assert('E' in G.keys()), "The undirected connection graph shall have a key as 'E' for the edges."
@@ -54,7 +59,7 @@ def generateMaze(rows=20, cols=20):
   L = set()
 
   # Select c € V randomly.
-  c = randomnode(G['V'])
+  randomNumber, c = randomnode(G['V'], randomNumber)
 
   # Initialize L with the neighbours of c.
   for w in W:
@@ -63,7 +68,7 @@ def generateMaze(rows=20, cols=20):
 
   while L:
     # Select l € L randomly.
-    l = randomnode(L)
+    randomNumber, l = randomnode(L, randomNumber)
 
     if not l in C:
       # Both ends not already visited.

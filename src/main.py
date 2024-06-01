@@ -5,7 +5,7 @@ import time
 import numpy as np
 
 # Function to plot the maze graph
-def plotgraph(G, path = None, vertexflag=True):
+def plotgraph(G, path = None, vertexflag=False):
     # Clear the previous plot
     plt.clf()
     
@@ -47,7 +47,7 @@ def main():
     plt.rcParams['figure.figsize'] = [10, 10]
 
     # Initialize dynamic maze
-    dynamic_maze = DynamicMaze(10, 10)
+    dynamic_maze = DynamicMaze(20, 20)
     
     # Plot the initial maze
     plotgraph(dynamic_maze.maze, dynamic_maze.path)
@@ -57,11 +57,13 @@ def main():
     figManager.window.state('zoomed')
     plt.pause(1)  # Add a small pause to allow for plot updates
 
+    counter = 0
     # Main loop
     while True:
+        counter += 1
         # Update maze
         dynamic_maze.updateMaze()  # Update maze every iteration
-
+        print("Iteration %d",counter)
         # Find path
         plotgraph(dynamic_maze.maze, dynamic_maze.path)
 

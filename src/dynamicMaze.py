@@ -10,7 +10,7 @@ class DynamicMaze:
         self.cols = cols
         # Generate a random starting value for the lcg2 function call
         self.startingVal = 1
-        self.maze = mazeGenerator.generateMaze(rows, cols)
+        self.maze = mazeGenerator.generateMaze(rows, cols, self.startingVal)
         self.start = (0, 0)  # Start position
         self.end = (rows - 1, cols - 1)  # End position
         self.path = self.findPath()
@@ -27,7 +27,9 @@ class DynamicMaze:
             self.maze['E'].append(edge)
 
     def updateMaze(self, updateFactor = 10):
-        self.maze = mazeGenerator.generateMaze(self.rows, self.cols)
+        random_val = randomNumberGenerator.lcg2(startingval=self.startingVal)  # Pass a new random starting value
+        self.startingVal = random_val
+        self.maze = mazeGenerator.generateMaze(self.rows, self.cols, randomNumber=self.startingVal)
         self.path = self.findPath()
         return
         for _ in range(int((self.rows*self.cols)/updateFactor)):
