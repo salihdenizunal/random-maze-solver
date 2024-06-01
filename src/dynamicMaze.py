@@ -26,41 +26,34 @@ class DynamicMaze:
         if not self.has_edge(edge):
             self.maze['E'].append(edge)
 
-    def updateMaze(self, updateFactor = 10):
+    def updateMaze(self):
+        # Generate random number to decide whether to add or remove walls
         random_val = randomNumberGenerator.lcg2(startingval=self.startingVal)  # Pass a new random starting value
         self.startingVal = random_val
-        self.maze = mazeGenerator.generateMaze(self.rows, self.cols, randomNumber=self.startingVal)
-        self.path = self.findPath()
-        return
-        for _ in range(int((self.rows*self.cols)/updateFactor)):
-            # Generate random number to decide whether to add or remove walls
-            random_val = randomNumberGenerator.lcg2(startingval=self.startingVal)  # Pass a new random starting value
-            self.startingVal = random_val
-            if random_val % 2 == 0:
-                # Add or remove walls
-                row = random.randint(0, self.rows - 1)
-                col = random.randint(0, self.cols - 1)
-                start = (row, col)
-                # Randomly select the direction of the end vertex (up, down, left, right)
-                direction = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
-                end = (start[0] + direction[0], start[1] + direction[1])
-                edge = (start, end)
-                if self.has_edge(edge):
-                    self.remove_edge(edge)  # Remove wall
+        # Add or remove walls
+        row = random.randint(0, self.rows - 1)
+        col = random.randint(0, self.cols - 1)
+        start = (row, col)
+        # Randomly select the direction of the end vertex (up, down, left, right)
+        direction = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
+        end = (start[0] + direction[0], start[1] + direction[1])
+        edge = (start, end)
+        if self.has_edge(edge):
+            self.remove_edge(edge)  # Remove wall
 
-                    calculatedPath = self.findPath()
-                    if calculatedPath is None:
-                        self.add_edge(edge)
-                    else:
-                        self.path = calculatedPath
-                else:
-                    self.add_edge(edge)  # Add wall
+            calculatedPath = self.findPath()
+            if calculatedPath is None:
+                self.add_edge(edge)
+            else:
+                self.path = calculatedPath
+        else:
+            self.add_edge(edge)  # Add wall
 
-                    calculatedPath = self.findPath()
-                    if calculatedPath is None:
-                        self.remove_edge(edge)
-                    else:
-                        self.path = calculatedPath
+            calculatedPath = self.findPath()
+            if calculatedPath is None:
+                self.remove_edge(edge)
+            else:
+                self.path = calculatedPath
 
     def findIndexOfVertex(self, v):
         for i, vertex in enumerate(self.maze['V']):
