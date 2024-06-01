@@ -10,10 +10,15 @@ class DynamicMaze:
         self.cols = cols
         # Generate a random starting value for the lcg2 function call
         self.startingVal = 1
+        self.pointer =  (0, 0)  # Initialize pointer at the start position
         self.maze = mazeGenerator.generateMaze(rows, cols, self.startingVal)
-        self.start = (0, 0)  # Start position
         self.end = (rows - 1, cols - 1)  # End position
         self.path = self.findPath()
+
+    def move(self):
+        if self.pointer != self.end:
+            next_index = self.path[self.path.index(self.findIndexOfVertex(self.pointer)) + 1]
+            self.pointer = self.maze['V'][next_index]
 
     def has_wall(self, wall):
         return wall in self.maze['W']
@@ -95,12 +100,12 @@ class DynamicMaze:
         return graph
 
     def findPath(self):
-        aStarMap = pathFinder.A_star(self.construct_graph(), self.start, self.end)
+        aStarMap = pathFinder.A_star(self.construct_graph(), self.pointer, self.end)
         if aStarMap is None:
             return None
 
         shortestPath = []
-        indexOf_startVertex = self.findIndexOfVertex(self.start)
+        indexOf_startVertex = self.findIndexOfVertex(self.pointer)
         indexOf_endVertex = self.findIndexOfVertex(self.end)
 
         shortestPath.append(indexOf_endVertex)
