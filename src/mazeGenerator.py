@@ -1,89 +1,55 @@
-import numpy as np
-import randomNumberGenerator
+from RandomNumberGenerator import RandomNumberGenerator
+from Maze import Maze
 
-def undirectedconnectiongraph(xnum=30, ynum=30):
-  G = {'V':[], 'W':[]} # We will use a dictionary for simplicity
-  for xind in range(xnum):
-    for yind in range(ynum):
-      G['V'].append((xind, yind))
+class MazeGenerator:
+    def __init__(self, rows = 15, cols = 15):
+        self.maze = Maze(rows, cols)
+        self.randomNumberGenerator = RandomNumberGenerator()
 
-  # Traverse north first
-  for pt in G['V']:
-    vtn = north(pt[0], pt[1])
-    if isvertex(vtn, G['V']):
-      G['W'].append((pt, vtn))
+    def randomItem(self, fromList):
+        randind = (self.randomNumberGenerator.generate() % len(list(fromList)))
+        return list(fromList)[randind]
 
-  # Traverse east second
-  for pt in G['V']:
-    vte = east(pt[0], pt[1])
-    if isvertex(vte, G['V']):
-      G['W'].append((pt, vte))
-  return G
+    # Returns the walls W from the walls of G that builds up a maze.
+    def generateMaze(self):
+        assert(type(self.maze == Maze)), "The self maze should be type Maze."
 
-def north(xind, yind):
-  node = (xind, yind + 1)
-  return node
+        # Visited cells C from Vertexes of G.
+        # All cells are unvisited.
+        C = set()
 
-def east(xind, yind):
-  node = (xind + 1, yind)
-  return node
+        # All connections have walls.
+        W = self.maze.walls.copy()
 
-def isvertex(node, vertices):
-  return node in vertices
+        # Set of walls to check out L.
+        L = set()
 
-def randomnode(vertices, randomNumber):
-  vertices = list(vertices)
-  generated = randomNumberGenerator.lcg2(startingval=randomNumber)
-  randind = (generated % len(vertices))
-  return generated, vertices[randind]
+        # Select c € V randomly.
+        c = self.randomItem(self.maze.vertices)
 
-# Returns the walls W from the walls of G that builds up a maze.
-def generateMaze(rows=20, cols=20, randomNumber = None):
-  if randomNumber is None:
-    randomNumber = randomNumberGenerator.lcg2()
-
-  G = undirectedconnectiongraph(rows, cols)
-  assert(type(G) == dict), "The undirected connection graph shall be a dictionary."
-  assert('W' in G.keys()), "The undirected connection graph shall have a key as 'W' for the walls."
-  assert('V' in G.keys()), "The undirected connection graph shall have a key as 'V' for the vertices."
-  assert(len(G) == 2), "The undirected connection graph shall only have 2 keys."
-
-  # Visited cells C from Vertexes of G.
-  # All cells are unvisited.
-  C = set()
-
-  # All connections have walls.
-  W = G['W'].copy()
-
-  # Set of walls to check out L.
-  L = set()
-
-  # Select c € V randomly.
-  randomNumber, c = randomnode(G['V'], randomNumber)
-
-  # Initialize L with the neighbours of c.
-  for w in W:
-    if c in w:
-      L.add(w)
-
-  while L:
-    # Select l € L randomly.
-    randomNumber, l = randomnode(L, randomNumber)
-
-    if not l in C:
-      # Both ends not already visited.
-      if(len(set(l).intersection(C)) <= 1):
-        for endPt in l:
-          C.add(endPt)
-
-        # Remove the wall.
-        W.remove(l)
-
-        # Add neighbouring walls.
+        # Initialize L with the neighbours of c.
         for w in W:
-          if len(set(w).intersection(l)) != 0:
-            if not w in L:
-              L.add(w)
-    L.remove(l)
+            if c in w:
+                L.add(w)
 
-  return { 'V': G['V'], 'W': W }
+        while L:
+            # Select l € L randomly.
+            l = self.randomItem(L)
+
+            if not l in C:
+                # Both ends not already visited.
+                if(len(set(l).intersection(C)) <= 1):
+                    for endPt in l:
+                        C.add(endPt)
+
+                    # Remove the wall.
+                    W.remove(l)
+
+                    # Add neighbouring walls.
+                    for w in W:
+                        if len(set(w).intersection(l)) != 0:
+                            if not w in L:
+                                L.add(w)
+            L.remove(l)
+
+        self.maze.walls = W

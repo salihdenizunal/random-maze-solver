@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from dynamicMaze import DynamicMaze
-    
+from DynamicMaze import DynamicMaze
+
 # Main function
 def main():
     # Use the TkAgg backend
@@ -27,8 +27,8 @@ def main():
         # Update maze
         dynamic_maze.updateMaze()  # Update maze every iteration
         counter += 1
-        if counter % 3 == 0:
-            dynamic_maze.move()
+        if counter % 5 == 0:
+            dynamic_maze.pawn.move()
         print("Iteration %d",counter)
         dynamic_maze.plot()
 
