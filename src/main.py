@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 from DynamicMaze import DynamicMaze
 
 # Main function
-def main(maze_rows, maze_cols, pawn_speed):
+def main(rows, cols, pawnSpeed, updateFactor):
     # Use the TkAgg backend
     plt.switch_backend('TkAgg')
 
     # Initialize dynamic maze
-    dynamic_maze = DynamicMaze(maze_rows, maze_cols)
+    dynamic_maze = DynamicMaze(rows, cols)
     
     # Plot the initial maze
     counter = 0
@@ -22,15 +22,15 @@ def main(maze_rows, maze_cols, pawn_speed):
     plt.pause(1)  # Add a small pause to allow for plot updates
     
     # Normalize pawn speed to ensure it's between 0 and 1
-    pawn_speed = max(0.0000001, min(1, pawn_speed))
+    pawnSpeed = max(0.0000001, min(1, pawnSpeed))
 
     # Calculate the number of iterations between each movement based on pawn speed
-    iterations_per_move = int(1 / pawn_speed)
+    iterations_per_move = int(1 / pawnSpeed)
 
     # Main loop
     while True:
         # Update maze
-        dynamic_maze.updateMaze()  # Update maze every iteration
+        dynamic_maze.updateMaze(updateFactor)  # Update maze every iteration
         counter += 1
         if counter % iterations_per_move == 0:
             dynamic_maze.pawn.move()
@@ -45,8 +45,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Dynamic Maze Solver')
     parser.add_argument('--rows', type=int, default=15, help='Number of rows in the maze')
     parser.add_argument('--cols', type=int, default=15, help='Number of columns in the maze')
-    parser.add_argument('--speed', type=float, default=0.1, help='Speed of the pawn (in seconds per move)')
+    parser.add_argument('--pawnSpeed', type=float, default=0.5, help='Speed of the pawn (in seconds per move)')
+    parser.add_argument('--updateFactor', type=int, default=2, help='Factor of the updates.')
     args = parser.parse_args()
 
     # Call main function with parsed arguments
-    main(args.rows, args.cols, args.speed)
+    main(args.rows, args.cols, args.pawnSpeed, args.updateFactor)

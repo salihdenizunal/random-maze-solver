@@ -68,41 +68,42 @@ class DynamicMaze(Maze):
 
         return False  # Adding this wall won't create a chain
 
-    def updateMaze(self):
-        # Add or remove walls        
-        row = (self.randomNumberGenerator.generate() % (self.getRows() - 1))
-        col = (self.randomNumberGenerator.generate() % (self.getCols() - 1))
+    def updateMaze(self, updateFactor):
+        for _ in range(updateFactor):
+            # Add or remove walls        
+            row = (self.randomNumberGenerator.generate() % (self.getRows() - 1))
+            col = (self.randomNumberGenerator.generate() % (self.getCols() - 1))
 
-        buffer = min(self.getRows(), self.getCols())
+            buffer = min(self.getRows(), self.getCols())
 
-        start = (row, col)
-        # Randomly select the direction of the end vertex (up, down, left, right)
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-        direction = directions[self.randomNumberGenerator.generate() % 4]
-        
-        end = (start[0] + direction[0], start[1] + direction[1])
-        wall = (start, end)
-        if self.hasWall(wall):
-            if len(self.walls) + buffer < len(self.vertices): return
-            self.__removeWall(wall)  # Remove wall
+            start = (row, col)
+            # Randomly select the direction of the end vertex (up, down, left, right)
+            directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+            direction = directions[self.randomNumberGenerator.generate() % 4]
+            
+            end = (start[0] + direction[0], start[1] + direction[1])
+            wall = (start, end)
+            if self.hasWall(wall):
+                if len(self.walls) + buffer < len(self.vertices): continue
+                self.__removeWall(wall)  # Remove wall
 
-            calculatedPath = self.pawn.findPath()
-            if calculatedPath is None:
-                self.__addWall(wall)
+                calculatedPath = self.pawn.findPath()
+                if calculatedPath is None:
+                    self.__addWall(wall)
+                else:
+                    self.pawn.setPath(calculatedPath)
+                    self.pawn.setMaze(self.copy())
             else:
-                self.pawn.setPath(calculatedPath)
-                self.pawn.setMaze(self.copy())
-        else:
-            if len(self.walls) - buffer > len(self.vertices): return
-            if self.__createsChain(wall): return
-            self.__addWall(wall)  # Add wall
+                if len(self.walls) - buffer > len(self.vertices): continue
+                if self.__createsChain(wall): continue
+                self.__addWall(wall)  # Add wall
 
-            calculatedPath = self.pawn.findPath()
-            if calculatedPath is None:
-                self.__removeWall(wall)
-            else:
-                self.pawn.setPath(calculatedPath)
-                self.pawn.setMaze(self.copy())
+                calculatedPath = self.pawn.findPath()
+                if calculatedPath is None:
+                    self.__removeWall(wall)
+                else:
+                    self.pawn.setPath(calculatedPath)
+                    self.pawn.setMaze(self.copy())
 
     def plot(self):
         plt.clf()
