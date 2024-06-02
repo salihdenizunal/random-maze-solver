@@ -43,8 +43,8 @@ def main(maze_rows, maze_cols, pawn_speed):
 if __name__ == "__main__":
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description='Dynamic Maze Solver')
-    parser.add_argument('--rows', type=int, default=20, help='Number of rows in the maze')
-    parser.add_argument('--cols', type=int, default=20, help='Number of columns in the maze')
+    parser.add_argument('--rows', type=int, default=15, help='Number of rows in the maze')
+    parser.add_argument('--cols', type=int, default=15, help='Number of columns in the maze')
     parser.add_argument('--speed', type=float, default=0.1, help='Speed of the pawn (in seconds per move)')
     args = parser.parse_args()
 
