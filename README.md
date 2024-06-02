@@ -20,7 +20,7 @@ To install the project, follow these steps:
 
 1. Clone the repository to your local machine:
 
-git clone https://github.com/your_username/dynamic-maze-solver.git
+git clone https://github.com/salihdenizunal/dynamic-maze-solver.git
 
 ## Requirements
 
@@ -38,8 +38,8 @@ To run the simulation, execute the `main.py` script with optional command-line a
 
 python main.py [--rows ROWS] [--cols COLS] [--speed SPEED]
 
-- `--rows ROWS`: Number of rows in the maze (default: 20).
-- `--cols COLS`: Number of columns in the maze (default: 20).
+- `--rows ROWS`: Number of rows in the maze (default: 15).
+- `--cols COLS`: Number of columns in the maze (default: 15).
 - `--speed SPEED`: Speed of the pawn movement (between 0 and 1, default: 0.1).
 
 Example usage:
