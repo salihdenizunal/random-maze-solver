@@ -23,6 +23,9 @@ def main(rows, cols, pawnSpeed, updateFactor):
     
     # Normalize pawn speed to ensure it's between 0 and 1
     pawnSpeed = max(0.0000001, min(1, pawnSpeed))
+    
+    # Normalize update factor to ensure it's greater than or equal to 1
+    updateFactor = max(1, updateFactor)
 
     # Calculate the number of iterations between each movement based on pawn speed
     iterations_per_move = int(1 / pawnSpeed)
@@ -46,7 +49,7 @@ if __name__ == "__main__":
     parser.add_argument('--rows', type=int, default=15, help='Number of rows in the maze')
     parser.add_argument('--cols', type=int, default=15, help='Number of columns in the maze')
     parser.add_argument('--pawnSpeed', type=float, default=0.5, help='Speed of the pawn (in seconds per move)')
-    parser.add_argument('--updateFactor', type=int, default=2, help='Factor of the updates.')
+    parser.add_argument('--updateFactor', type=int, default=5, help='Factor of the updates.')
     args = parser.parse_args()
 
     # Call main function with parsed arguments
