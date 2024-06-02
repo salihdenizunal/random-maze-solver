@@ -17,7 +17,7 @@ class Pawn:
         self.__maze = maze
     
     def move(self):
-        if self.position != self.goal:
+        if self.position != self.goal and len(self.__path) > 0:
             next_index = self.__path[self.__path.index(self.__maze.findIndexOfVertex(self.position)) + 1]
             self.position = self.__maze.vertices[next_index]
 
