@@ -2,9 +2,25 @@ import numpy as np
 
 class RandomNumberGenerator:
     def __init__(self, modulus=2**31-1, multiplier=16807, increment=0, startingVal=1):
+        self.setModulus(modulus)
+        self.setMultiplier(multiplier)
+        self.setIncrement(increment)
+        self.setStartingVal(startingVal)
+
+    # Setter for modulus
+    def setModulus(self, modulus):
         self.__modulus = modulus
+
+    # Setter for multiplier
+    def setMultiplier(self, multiplier):
         self.__multiplier = multiplier
+
+    # Setter for increment
+    def setIncrement(self, increment):
         self.__increment = increment
+
+    # Setter for startingVal
+    def setStartingVal(self, startingVal):
         self.__startingVal = startingVal
 
     def __moduloSum(self, x, y, m):

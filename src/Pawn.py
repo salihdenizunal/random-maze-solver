@@ -7,7 +7,8 @@ class Pawn:
         self.position = startPosition
         self.goal = goal
         self.setMaze(maze)
-        self.__path = []
+        self.setPath([])
+        self.__pathFinder = PathFinder(self.__maze.converToGraph(), self.position, self.goal)
         
     def setPath(self, path : list):
         self.__path = path
@@ -39,8 +40,10 @@ class Pawn:
         
     
     def findPath(self):
-        self.pathFinder = PathFinder(self.__maze.construct_graph(), self.position, self.goal)
-        aStarMap = self.pathFinder.getPathMapping()
+        self.__pathFinder.setGraph(self.__maze.converToGraph())
+        self.__pathFinder.setStart(self.position)
+        self.__pathFinder.setGoal(self.goal)
+        aStarMap = self.__pathFinder.getPathMapping()
         if aStarMap is None:
             return None
 

@@ -6,7 +6,7 @@ class Graph:
         self.edges = edges
         
     # Check if the given vertex is a vertex of the given graph.
-    def isVertex(self, v):
+    def hasVertex(self, v):
         return any([v == vertex for vertex in self.vertices])
  
     # Find the index of the given vertex in the given graph.
@@ -17,8 +17,8 @@ class Graph:
         return -1
     
     # Find the successors of the given vertex in the given graph.
-    def findSuccessors(self, v):
-        assert(self.isVertex(v))
+    def getSuccessors(self, v):
+        assert(self.hasVertex(v))
         index = self.findIndexOfVertex(v)
         successors = []
         for edge in self.edges:

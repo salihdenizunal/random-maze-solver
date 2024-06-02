@@ -21,7 +21,7 @@ class PathFinder:
         return math.sqrt(pow((v1[0] - v2[0]), 2) + pow((v1[1] - v2[1]), 2))
     
     def getPathMapping(self):
-        assert(self.graph.isVertex(self.start) and self.graph.isVertex(self.goal))
+        assert(self.graph.hasVertex(self.start) and self.graph.hasVertex(self.goal))
 
         # pi -> mapping
         pi = {}
@@ -65,7 +65,7 @@ class PathFinder:
             S.remove(indexOf_v)
 
             # Open u.
-            for u in self.graph.findSuccessors(v):
+            for u in self.graph.getSuccessors(v):
                 indexOf_u = self.graph.findIndexOfVertex(u)
                 if (pi[indexOf_u] == None) or (indexOf_u in S and (g[(indexOf_s, indexOf_v)] + self.__heuristicMeasure(v, u) < g[(indexOf_s,indexOf_u)])):
                     S.add(indexOf_u)

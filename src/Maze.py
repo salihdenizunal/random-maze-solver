@@ -8,21 +8,27 @@ import matplotlib.pyplot as plt
 # focus solely on generating the maze.
 class Maze:
     def __init__(self, rows = 15, cols = 15):
-        self.rows = rows
-        self.cols = cols
+        self.__rows = rows
+        self.__cols = cols
         self.vertices = []
         self.walls = []
         self.__initMaze()
+        
+    def getRows(self):
+        return self.__rows
+    
+    def getCols(self):
+        return self.__cols
     
     def copy(self):
-        copyMaze = Maze(self.rows, self.cols)
+        copyMaze = Maze(self.__rows, self.__cols)
         copyMaze.vertices = self.vertices
         copyMaze.walls = self.walls
         return copyMaze
 
     def __initMaze(self):
-        for xind in range(self.rows):
-            for yind in range(self.cols):
+        for xind in range(self.__rows):
+            for yind in range(self.__cols):
                 self.vertices.append((xind, yind))
 
         # Traverse north first
@@ -48,7 +54,7 @@ class Maze:
     def isVertex(self, node):
         return node in self.vertices
     
-    def has_wall(self, wall):
+    def hasWall(self, wall):
         return wall in self.walls
     
     def findIndexOfVertex(self, v):
@@ -57,24 +63,23 @@ class Maze:
                 return i
         return -1
 
-    def get_adjacent_vertices(self, vertex):
+    def getNeighborVertices(self, vertex):
         i, j = vertex
-        adjacent_vertices = []
+        neighborVertices = []
         for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
             x, y = i + dx, j + dy
             neighbor = (x, y)
             if (vertex, neighbor) in self.walls or (neighbor, vertex) in self.walls:
                 continue
             if self.isVertex(neighbor):
-                adjacent_vertices.append(self.findIndexOfVertex(neighbor))
-        return adjacent_vertices
+                neighborVertices.append(self.findIndexOfVertex(neighbor))
+        return neighborVertices
 
-    
-    def construct_graph(self):
+    def converToGraph(self):
         # Create walls between adjacent vertices (excluding walls)
         edges = []
         for vertex in self.vertices:
-            for neighbor_id in self.get_adjacent_vertices(vertex):
+            for neighbor_id in self.getNeighborVertices(vertex):
                 edges.append((self.findIndexOfVertex(vertex), neighbor_id))
         
         graph = Graph(self.vertices, edges)

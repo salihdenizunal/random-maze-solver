@@ -4,10 +4,10 @@ from Maze import Maze
 class MazeGenerator:
     def __init__(self, rows = 15, cols = 15):
         self.maze = Maze(rows, cols)
-        self.randomNumberGenerator = RandomNumberGenerator()
+        self.__randomNumberGenerator = RandomNumberGenerator()
 
-    def randomItem(self, fromList):
-        randind = (self.randomNumberGenerator.generate() % len(list(fromList)))
+    def __randomItem(self, fromList):
+        randind = (self.__randomNumberGenerator.generate() % len(list(fromList)))
         return list(fromList)[randind]
 
     # Returns the walls W from the walls of G that builds up a maze.
@@ -25,7 +25,7 @@ class MazeGenerator:
         L = set()
 
         # Select c € V randomly.
-        c = self.randomItem(self.maze.vertices)
+        c = self.__randomItem(self.maze.vertices)
 
         # Initialize L with the neighbours of c.
         for w in W:
@@ -34,7 +34,7 @@ class MazeGenerator:
 
         while L:
             # Select l € L randomly.
-            l = self.randomItem(L)
+            l = self.__randomItem(L)
 
             if not l in C:
                 # Both ends not already visited.
