@@ -6,9 +6,6 @@ def main():
     # Use the TkAgg backend
     plt.switch_backend('TkAgg')
 
-    # Adjust the figure size
-    plt.rcParams['figure.figsize'] = [10, 10]
-
     # Initialize dynamic maze
     dynamic_maze = DynamicMaze(15, 15)
     
