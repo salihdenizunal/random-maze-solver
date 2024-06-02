@@ -84,7 +84,6 @@ class DynamicMaze(Maze):
             end = (start[0] + direction[0], start[1] + direction[1])
             wall = (start, end)
             if self.hasWall(wall):
-                if len(self.walls) + buffer < len(self.vertices): continue
                 self.__removeWall(wall)  # Remove wall
 
                 calculatedPath = self.pawn.findPath()
@@ -94,7 +93,6 @@ class DynamicMaze(Maze):
                     self.pawn.setPath(calculatedPath)
                     self.pawn.setMaze(self.copy())
             else:
-                if len(self.walls) - buffer > len(self.vertices): continue
                 if self.__createsChain(wall): continue
                 self.__addWall(wall)  # Add wall
 
