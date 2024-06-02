@@ -2,7 +2,6 @@ from MazeGenerator import MazeGenerator
 from Pawn import Pawn
 from Maze import Maze
 from RandomNumberGenerator import RandomNumberGenerator
-import random
 import matplotlib.pyplot as plt
 
 class DynamicMaze(Maze):
@@ -70,15 +69,17 @@ class DynamicMaze(Maze):
         return False  # Adding this wall won't create a chain
 
     def updateMaze(self):
-        # Add or remove walls
-        row = random.randint(0, self.getRows() - 1)
-        col = random.randint(0, self.getCols() - 1)
+        # Add or remove walls        
+        row = (self.randomNumberGenerator.generate() % (self.getRows() - 1))
+        col = (self.randomNumberGenerator.generate() % (self.getCols() - 1))
 
         buffer = min(self.getRows(), self.getCols())
 
         start = (row, col)
         # Randomly select the direction of the end vertex (up, down, left, right)
-        direction = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        direction = directions[self.randomNumberGenerator.generate() % 4]
+        
         end = (start[0] + direction[0], start[1] + direction[1])
         wall = (start, end)
         if self.hasWall(wall):

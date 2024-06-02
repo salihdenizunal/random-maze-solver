@@ -1,7 +1,7 @@
 import numpy as np
 
 class RandomNumberGenerator:
-    def __init__(self, modulus=2**31-1, multiplier=16807, increment=0, startingVal=1):
+    def __init__(self, modulus=2**31-1, multiplier=16807, increment=0, startingVal=None):
         self.setModulus(modulus)
         self.setMultiplier(multiplier)
         self.setIncrement(increment)
@@ -21,6 +21,8 @@ class RandomNumberGenerator:
 
     # Setter for startingVal
     def setStartingVal(self, startingVal):
+        if startingVal is None:
+            startingVal = np.random.randint(0, self.__modulus)
         self.__startingVal = startingVal
 
     def __moduloSum(self, x, y, m):
@@ -54,4 +56,5 @@ class RandomNumberGenerator:
         if r < 0:
             r = r + self.__modulus
         r = self.__moduloSum(r, self.__increment, self.__modulus)
+        self.setStartingVal(r)
         return r
