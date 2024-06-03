@@ -75,8 +75,6 @@ class DynamicMaze(Maze):
             row = (self.randomNumberGenerator.generate() % (self.getRows() - 1))
             col = (self.randomNumberGenerator.generate() % (self.getCols() - 1))
 
-            buffer = min(self.getRows(), self.getCols())
-
             start = (row, col)
             # Randomly select the direction of the end vertex (up, down, left, right)
             directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
