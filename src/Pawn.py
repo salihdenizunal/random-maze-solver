@@ -18,15 +18,15 @@ class Pawn:
     
     def move(self):
         if self.position != self.goal and len(self.__path) > 0:
-            next_index = self.__path[self.__path.index(self.__maze.findIndexOfVertex(self.position)) + 1]
-            self.position = self.__maze.vertices[next_index]
+            nextIndex = self.__path[self.__path.index(self.__maze.findIndexOfVertex(self.position)) + 1]
+            self.position = self.__maze.vertices[nextIndex]
 
     def plot(self):
          # Plot the path if provided
         if self.__path:
-            path_coords = [self.__maze.vertices[i] for i in self.__path]
-            path_x = [coord[0] for coord in path_coords]
-            path_y = [coord[1] for coord in path_coords]
+            pathCoords = [self.__maze.vertices[i] for i in self.__path]
+            path_x = [coord[0] for coord in pathCoords]
+            path_y = [coord[1] for coord in pathCoords]
             plt.plot(path_x, path_y, 'b', linewidth=2)
 
         # Plot start marker 

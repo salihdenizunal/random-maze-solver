@@ -30,14 +30,14 @@ class DynamicMaze(Maze):
         (start, end) = wall
 
         # Get the neighbors of the start and end vertices
-        start_neighbors = self.getNeighborVertices(start)
-        end_neighbors = self.getNeighborVertices(end)
+        startNeighbors = self.getNeighborVertices(start)
+        endNeighbors = self.getNeighborVertices(end)
 
         # It checks if adding this wall would isolate either the start or end vertex.
         # If a vertex has only one neighbor (including the other end of the wall being added),
         # adding this wall would isolate it, which is undesirable. In this case, the method 
         # returns True, indicating that adding this wall would create a chain.
-        if len(start_neighbors) == 1 or len(end_neighbors) == 1:
+        if len(startNeighbors) == 1 or len(endNeighbors) == 1:
             return True
 
         # Verify if the start and end vertices are already connected by other walls.
@@ -45,8 +45,8 @@ class DynamicMaze(Maze):
         # if any neighbor of the start vertex is the same as any neighbor of the end vertex.
         # If such a neighbor exists, it means the start and end vertices are already connected,
         # and hence adding this wall won't create a chain.
-        start_connected = any(neigh in start_neighbors for neigh in end_neighbors)
-        if start_connected:
+        startConnected = any(neigh in startNeighbors for neigh in endNeighbors)
+        if startConnected:
             return False  # Adding this wall won't create a chain
 
         # If the start and end vertices are not already connected, the method examines
@@ -54,8 +54,8 @@ class DynamicMaze(Maze):
         # neighbors of the start vertex already have walls between them and the start vertex.
         # If so, adding this wall would isolate the start vertex from the rest of the maze,
         # creating a chain.
-        start_chain = all(self.hasWall((start, neigh)) for neigh in start_neighbors)
-        if start_chain:
+        startChain = all(self.hasWall((start, neigh)) for neigh in startNeighbors)
+        if startChain:
             return True  # Adding this wall will create a chain
 
         # Similarly, if adding the wall wouldn't create a chain at the start vertex,
@@ -63,8 +63,8 @@ class DynamicMaze(Maze):
         # all neighbors of the end vertex already have walls between them and the end vertex.
         # If so, adding this wall would isolate the end vertex from the rest of the maze,
         # creating a chain.
-        end_chain = all(self.hasWall((end, neigh)) for neigh in end_neighbors)
-        if end_chain:
+        endChain = all(self.hasWall((end, neigh)) for neigh in endNeighbors)
+        if endChain:
             return True  # Adding this wall will create a chain
 
         return False  # Adding this wall won't create a chain

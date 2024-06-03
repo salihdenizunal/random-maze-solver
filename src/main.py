@@ -9,10 +9,10 @@ def main(rows, cols, pawnSpeed, updateFactor):
     plt.switch_backend('TkAgg')
 
     # Initialize dynamic maze
-    dynamic_maze = DynamicMaze(rows, cols)
+    dynamicMaze = DynamicMaze(rows, cols)
     
     # Plot the initial maze
-    dynamic_maze.plot()
+    dynamicMaze.plot()
 
     # Get the Tk window and maximize it
     figManager = plt.get_current_fig_manager()
@@ -26,17 +26,17 @@ def main(rows, cols, pawnSpeed, updateFactor):
     updateFactor = max(1, updateFactor)
 
     # Calculate the number of iterations between each movement based on pawn speed
-    iterations_per_move = int(1 / pawnSpeed)
+    iterationsPerMove = int(1 / pawnSpeed)
 
     # Main loop
     counter = 0
     while True:
         # Update maze
-        dynamic_maze.updateMaze(updateFactor)  # Update maze every iteration
+        dynamicMaze.updateMaze(updateFactor)  # Update maze every iteration
         counter += 1
-        if counter % iterations_per_move == 0:
-            dynamic_maze.pawn.move()
-        dynamic_maze.plot()
+        if counter % iterationsPerMove == 0:
+            dynamicMaze.pawn.move()
+        dynamicMaze.plot()
 
         # Pause briefly to control the simulation speed
         time.sleep(0.01)
