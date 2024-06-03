@@ -12,8 +12,6 @@ def main(rows, cols, pawnSpeed, updateFactor):
     dynamic_maze = DynamicMaze(rows, cols)
     
     # Plot the initial maze
-    counter = 0
-    print("Iteration", counter)
     dynamic_maze.plot()
 
     # Get the Tk window and maximize it
@@ -31,13 +29,13 @@ def main(rows, cols, pawnSpeed, updateFactor):
     iterations_per_move = int(1 / pawnSpeed)
 
     # Main loop
+    counter = 0
     while True:
         # Update maze
         dynamic_maze.updateMaze(updateFactor)  # Update maze every iteration
         counter += 1
         if counter % iterations_per_move == 0:
             dynamic_maze.pawn.move()
-        print("Iteration", counter)
         dynamic_maze.plot()
 
         # Pause briefly to control the simulation speed
@@ -46,10 +44,10 @@ def main(rows, cols, pawnSpeed, updateFactor):
 if __name__ == "__main__":
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description='Dynamic Maze Solver')
-    parser.add_argument('--rows', type=int, default=15, help='Number of rows in the maze')
-    parser.add_argument('--cols', type=int, default=15, help='Number of columns in the maze')
-    parser.add_argument('--pawnSpeed', type=float, default=0.5, help='Speed of the pawn (in seconds per move)')
-    parser.add_argument('--updateFactor', type=int, default=5, help='Factor of the updates.')
+    parser.add_argument('--rows', type=int, default=12, help='Number of rows in the maze')
+    parser.add_argument('--cols', type=int, default=12, help='Number of columns in the maze')
+    parser.add_argument('--pawnSpeed', type=float, default=0.33333, help='Speed of the pawn (in seconds per move)')
+    parser.add_argument('--updateFactor', type=int, default=15, help='Factor of the updates.')
     args = parser.parse_args()
 
     # Call main function with parsed arguments
