@@ -12,7 +12,8 @@ class DynamicMaze(Maze):
         self.walls = mazeGenerator.maze.walls
         self.vertices = mazeGenerator.maze.vertices
         self.pawn = Pawn((0,0), (rows-1, cols-1), self.copy())
-        
+        self.pawn.setPath(self.pawn.findPath())
+
         # Generate a random starting value for the lcg2 function call
         self.randomNumberGenerator = RandomNumberGenerator()
         
