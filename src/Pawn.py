@@ -149,7 +149,7 @@ class Pawn:
             plt.plot(move_x, move_y, 'lightblue', linewidth=1)
 
             # Plot start flag.
-            plt.plot(move_x[0], move_y[0], 'ro', color='lightblue', markersize=8)
+            plt.plot(move_x[0], move_y[0], 'o', color='lightblue', markersize=8)
 
         # Plot start marker.
         plt.plot(self.position[0], self.position[1], 'go', markersize=10)
