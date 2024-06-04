@@ -8,7 +8,7 @@ class Maze:
     Represents a maze and provides functionalities to manipulate and visualize it.
     """
 
-    def __init__(self, rows=15, cols=15):
+    def __init__(self, rows=12, cols=12):
         """
         Initializes a new instance of the Maze class.
 

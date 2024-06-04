@@ -47,7 +47,7 @@ if __name__ == "__main__":
     parser.add_argument('--rows', type=int, default=12, help='Number of rows in the maze')
     parser.add_argument('--cols', type=int, default=12, help='Number of columns in the maze')
     parser.add_argument('--pawnSpeed', type=float, default=0.33333, help='Speed of the pawn (in seconds per move)')
-    parser.add_argument('--updateFactor', type=int, default=15, help='Factor of the updates.')
+    parser.add_argument('--updateFactor', type=int, default=5, help='Factor of the updates.')
     args = parser.parse_args()
 
     # Call main function with parsed arguments

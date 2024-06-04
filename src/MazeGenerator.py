@@ -10,13 +10,13 @@ class MazeGenerator:
         __randomNumberGenerator (RandomNumberGenerator): The random number generator object.
     """
 
-    def __init__(self, rows=15, cols=15):
+    def __init__(self, rows=12, cols=12):
         """
         Initializes a MazeGenerator object.
 
         Args:
-            rows (int): The number of rows in the maze. Default is 15.
-            cols (int): The number of columns in the maze. Default is 15.
+            rows (int): The number of rows in the maze. Default is 12.
+            cols (int): The number of columns in the maze. Default is 12.
         """
         self.maze = Maze(rows, cols)
         self.__randomNumberGenerator = RandomNumberGenerator()

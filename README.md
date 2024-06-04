@@ -38,13 +38,13 @@ To run the simulation, execute the `main.py` script with optional command-line a
 
 python main.py [--rows ROWS] [--cols COLS] [--speed SPEED]
 
-- `--rows ROWS`: Number of rows in the maze (default: 15).
-- `--cols COLS`: Number of columns in the maze (default: 15).
+- `--rows ROWS`: Number of rows in the maze (default: 12).
+- `--cols COLS`: Number of columns in the maze (default: 12).
 - `--speed SPEED`: Speed of the pawn movement (between 0 and 1, default: 0.1).
 
 Example usage:
 
-python main.py --rows 15 --cols 15 --speed 0.2
+python main.py --rows 12 --cols 12 --speed 0.2
 
 This will start the simulation of the dynamic maze environment.
 

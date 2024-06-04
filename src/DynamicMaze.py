@@ -25,13 +25,13 @@ class DynamicMaze(Maze):
         plot(): Plots the maze and the pawn.
     """
 
-    def __init__(self, rows=15, cols=15):
+    def __init__(self, rows=12, cols=12):
         """
         Initialize the DynamicMaze object.
 
         Parameters:
-        - rows: The number of rows in the maze. Default is 15.
-        - cols: The number of columns in the maze. Default is 15.
+        - rows: The number of rows in the maze. Default is 12.
+        - cols: The number of columns in the maze. Default is 12.
 
         Returns:
         None
