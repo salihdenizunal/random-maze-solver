@@ -148,16 +148,22 @@ class Pawn:
             move_y = [coord[1] for coord in self.move_history]
             plt.plot(move_x, move_y, 'lightblue', linewidth=1)
 
+            # Plot start flag.
+            plt.plot(move_x[0], move_y[0], 'ro', color='lightblue', markersize=8)
+
         # Plot start marker.
         plt.plot(self.position[0], self.position[1], 'go', markersize=10)
 
         # Plot finish flag.
-        flag_x = self.goal[0] + 0.2
-        flag_y = self.goal[1] + 0.7
+        flag_x = self.goal[0] + 0.17
+        flag_y = self.goal[1] + 0.73
         plt.plot(flag_x, flag_y, marker='>', color='r', markersize=12)
         
         # Plot flagpole.
         plt.plot([self.goal[0], self.goal[0]], [self.goal[1] + 0.5, self.goal[1] ], color='black', linewidth=3)
+        
+        # Plot flagpole base.
+        plt.plot([self.goal[0] - 0.1, self.goal[0] + 0.1], [self.goal[1], self.goal[1]], color='black', linewidth=3)
         
     
     def findPath(self):
