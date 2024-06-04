@@ -153,23 +153,21 @@ class DynamicMaze(Maze):
             if self.hasWall(wall):
                 self.__removeWall(wall)  # Remove wall
 
+                self.pawn.setMaze(self.copy())
                 calculatedPath = self.pawn.findPath()
-                if calculatedPath is None:
-                    self.__addWall(wall)
-                else:
-                    self.pawn.setPath(calculatedPath)
-                    self.pawn.setMaze(self.copy())
+                self.pawn.setPath(calculatedPath)
             else:
                 if self.__createsChain(wall):
                     continue
                 self.__addWall(wall)  # Add wall
 
+                self.pawn.setMaze(self.copy())
                 calculatedPath = self.pawn.findPath()
                 if calculatedPath is None:
                     self.__removeWall(wall)
+                    self.pawn.setMaze(self.copy())
                 else:
                     self.pawn.setPath(calculatedPath)
-                    self.pawn.setMaze(self.copy())
 
     def plot(self):
         """
