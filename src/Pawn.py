@@ -118,6 +118,7 @@ class Pawn:
         if self.position != self.goal and len(self.__path) > 0:
             nextIndex = self.__path[self.__path.index(self.__maze.findIndexOfVertex(self.position)) + 1]
             self.position = self.__maze.vertices[nextIndex]
+            self.__path = self.__path[1:]  # Remove the previous position from the path
 
             # Add the current position to the move history
             self.move_history.append(self.position)
