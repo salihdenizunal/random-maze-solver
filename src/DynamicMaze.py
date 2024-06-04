@@ -43,8 +43,6 @@ class DynamicMaze(Maze):
         self.vertices = mazeGenerator.maze.vertices
         self.pawn = Pawn((0, 0), (rows - 1, cols - 1), self.copy())
         self.pawn.setPath(self.pawn.findPath())
-
-        # Generate a random starting value for the lcg2 function call
         self.randomNumberGenerator = RandomNumberGenerator()
 
     def __removeWall(self, wall):
@@ -92,40 +90,21 @@ class DynamicMaze(Maze):
         endNeighbors = self.getNeighborVertices(end)
 
         # Check if adding this wall would isolate either the start or end vertex.
-        # If a vertex has only one neighbor (including the other end of the wall being added),
-        # adding this wall would isolate it, which is undesirable. In this case, the method 
-        # returns True, indicating that adding this wall would create a chain.
+        # If a vertex has only one neighbor adding this wall would be isolating it.
         if len(startNeighbors) == 1 or len(endNeighbors) == 1:
             return True
 
-        # Verify if the start and end vertices are already connected by other walls.
-        # If they are, then adding this wall won't create a chain. The method checks
-        # if any neighbor of the start vertex is the same as any neighbor of the end vertex.
-        # If such a neighbor exists, it means the start and end vertices are already connected,
-        # and hence adding this wall won't create a chain.
-        startConnected = any(neigh in startNeighbors for neigh in endNeighbors)
-        if startConnected:
-            return False  # Adding this wall won't create a chain
-
-        # If the start and end vertices are not already connected, the method examines
-        # if adding this wall would create a chain for the start vertex. It checks if all
-        # neighbors of the start vertex already have walls between them and the start vertex.
-        # If so, adding this wall would isolate the start vertex from the rest of the maze,
-        # creating a chain.
+        # Check if adding this wall would create a chain for the start vertex.
         startChain = all(self.hasWall((start, neigh)) for neigh in startNeighbors)
         if startChain:
-            return True  # Adding this wall will create a chain
+            return True
 
-        # Similarly, if adding the wall wouldn't create a chain at the start vertex,
-        # it checks if it would create a chain at the end vertex. It examines if
-        # all neighbors of the end vertex already have walls between them and the end vertex.
-        # If so, adding this wall would isolate the end vertex from the rest of the maze,
-        # creating a chain.
+        # Check if adding this wall would create a chain for the end vertex.
         endChain = all(self.hasWall((end, neigh)) for neigh in endNeighbors)
         if endChain:
-            return True  # Adding this wall will create a chain
+            return True
 
-        return False  # Adding this wall won't create a chain
+        return False
 
     def updateMaze(self, updateFactor):
         """
@@ -139,7 +118,7 @@ class DynamicMaze(Maze):
         """
         # Update the maze by adding or removing walls
         for _ in range(updateFactor):
-            # Add or remove walls        
+            # Select random row and column to add or remove walls
             row = (self.randomNumberGenerator.generate() % (self.getRows() - 1))
             col = (self.randomNumberGenerator.generate() % (self.getCols() - 1))
 
@@ -150,23 +129,30 @@ class DynamicMaze(Maze):
 
             end = (start[0] + direction[0], start[1] + direction[1])
             wall = (start, end)
+            # If the random wall already exists, remove it. Otherwise, add it.
             if self.hasWall(wall):
-                self.__removeWall(wall)  # Remove wall
+                self.__removeWall(wall)
 
+                # Update the path of the pawn.
                 self.pawn.setMaze(self.copy())
                 calculatedPath = self.pawn.findPath()
                 self.pawn.setPath(calculatedPath)
             else:
+                # Check if adding this wall would create a chain in the maze.
+                # If it does, skip this wall.
                 if self.__createsChain(wall):
                     continue
-                self.__addWall(wall)  # Add wall
+                self.__addWall(wall)
 
+                # Check if the pawn can still find a path after adding the wall.
+                # If not, remove the wall.
                 self.pawn.setMaze(self.copy())
                 calculatedPath = self.pawn.findPath()
                 if calculatedPath is None:
                     self.__removeWall(wall)
                     self.pawn.setMaze(self.copy())
                 else:
+                    # Update the path of the pawn.
                     self.pawn.setPath(calculatedPath)
 
     def plot(self):
@@ -176,11 +162,9 @@ class DynamicMaze(Maze):
         Returns:
         None
         """
-        # Plot the maze and the pawn
         plt.clf()
         super().plot()
         self.pawn.plot()
-        # Set plot properties
         plt.axis('square')
         plt.draw()
-        plt.pause(0.001)  # Add a small pause to allow for plot updates
+        plt.pause(0.001)

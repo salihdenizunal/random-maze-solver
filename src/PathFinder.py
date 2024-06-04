@@ -9,9 +9,26 @@ class PathFinder:
         graph (Graph): The graph representing the maze.
         start (tuple): The starting vertex.
         goal (tuple): The goal vertex.
+
+    Methods:
+        __init__(self, graph : Graph, start, goal): Initializes a PathFinder object.
+        setStart(self, start): Sets the starting vertex.
+        setGoal(self, goal): Sets the goal vertex.
+        setGraph(self, graph : Graph): Sets the graph representing the maze.
+        __heuristicMeasure(self, v1, v2): Calculates the heuristic measure between two vertices.
+        getPathMapping(self): Finds the path mapping from the start vertex to the goal vertex.
+    """
+class PathFinder:
+    """
+    Class representing a path finder algorithm.
+
+    Attributes:
+        graph (Graph): The graph representing the maze.
+        start (tuple): The starting vertex.
+        goal (tuple): The goal vertex.
     """
 
-    def __init__(self, graph : Graph, start, goal):
+    def __init__(self, graph : Graph, start : tuple, goal : tuple):
         """
         Initializes a PathFinder object.
 

@@ -14,7 +14,7 @@ class Graph:
         getSuccessors(v): Find the successors of the given vertex in the graph.
     """
 
-    def __init__(self, vertices, edges):
+    def __init__(self, vertices : list, edges : list):
         """
         Initialize a Graph object.
 

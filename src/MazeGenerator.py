@@ -8,6 +8,11 @@ class MazeGenerator:
     Attributes:
         maze (Maze): The maze object.
         __randomNumberGenerator (RandomNumberGenerator): The random number generator object.
+
+    Methods:
+        __init__(self, rows=12, cols=12): Initializes a MazeGenerator object.
+        __randomItem(self, fromList): Returns a random item from a given list.
+        generateMaze(self): Generates a maze using the randomized Prim's algorithm.
     """
 
     def __init__(self, rows=12, cols=12):

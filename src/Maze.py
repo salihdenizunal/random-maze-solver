@@ -6,6 +6,27 @@ import matplotlib.pyplot as plt
 class Maze:
     """
     Represents a maze and provides functionalities to manipulate and visualize it.
+
+    Attributes:
+        __rows (int): The number of rows in the maze.
+        __cols (int): The number of columns in the maze.
+        vertices (list): The list of vertices in the maze.
+        walls (list): The list of walls in the maze.
+
+    Methods:
+        __init__(self, rows=12, cols=12): Initializes a new instance of the Maze class.
+        getRows(self): Returns the number of rows in the maze.
+        getCols(self): Returns the number of columns in the maze.
+        copy(self): Creates a copy of the maze.
+        __initMaze(self): Initializes the maze by creating vertices and walls.
+        __north(self, xind, yind): Returns the north neighbor of a vertex.
+        __east(self, xind, yind): Returns the east neighbor of a vertex.
+        isVertex(self, node): Checks if a node is a valid vertex in the maze.
+        hasWall(self, wall): Checks if a wall exists in the maze.
+        findIndexOfVertex(self, v): Finds the index of a vertex in the maze.
+        getNeighborVertices(self, vertex): Returns the indices of the neighboring vertices of a given vertex.
+        converToGraph(self): Converts the maze to a graph representation.
+        plot(self, vertexFlag=False): Plots the maze.
     """
 
     def __init__(self, rows=12, cols=12):
@@ -13,8 +34,8 @@ class Maze:
         Initializes a new instance of the Maze class.
 
         Args:
-            rows (int): The number of rows in the maze.
-            cols (int): The number of columns in the maze.
+            rows (int): The number of rows in the maze. Default is 12.
+            cols (int): The number of columns in the maze. Default is 12.
         """
         self.__rows = rows
         self.__cols = cols
@@ -60,13 +81,13 @@ class Maze:
             for yind in range(self.__cols):
                 self.vertices.append((xind, yind))
 
-        # Traverse north first
+        # Traverse north first.
         for pt in self.vertices:
             vtn = self.__north(pt[0], pt[1])
             if self.isVertex(vtn):
                 self.walls.append((pt, vtn))
 
-        # Traverse east second
+        # Traverse east second.
         for pt in self.vertices:
             vte = self.__east(pt[0], pt[1])
             if self.isVertex(vte):
@@ -182,7 +203,7 @@ class Maze:
         Args:
             vertexFlag (bool): Whether to plot the vertices of the maze.
         """
-        # Plot the walls of the maze
+        # Plot the walls of the maze.
         for e in self.walls:
             vec = np.array([e[1][0] - e[0][0], e[1][1] - e[0][1]])
             ort = np.array([-vec[1], vec[0]])
@@ -193,7 +214,7 @@ class Maze:
             endp = sum + ort / 2
             plt.plot((startp[0], endp[0]), (startp[1], endp[1]), 'gray', linewidth=10)
 
-        # Plot the vertices of the maze if vertexFlag is True
+        # Plot the vertices of the maze if vertexFlag is True.
         if vertexFlag:
             for v in self.vertices:
                 plt.plot(float(v[0]), float(v[1]), 'ro')

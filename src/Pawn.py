@@ -7,12 +7,12 @@ class Pawn:
     The Pawn class represents a pawn object in a maze.
 
     Attributes:
-    - position: The current position of the pawn.
-    - goal: The goal position of the pawn.
-    - maze: The maze object representing the maze.
-    - __path: The path of the pawn as a list of indices.
-    - move_history: The history of the pawn's moves as a list of positions.
-    - __pathFinder: The path finder object used to find the shortest path.
+    - position (tuple): The current position of the pawn.
+    - goal (tuple): The goal position of the pawn.
+    - maze (Maze): The maze object representing the maze.
+    - __path (list): The path of the pawn as a list of indices.
+    - move_history (list): The history of the pawn's moves as a list of positions.
+    - __pathFinder (PathFinder): The path finder object used to find the shortest path.
 
     Methods:
     - __init__(startPosition, goal, maze): Initializes the Pawn object.
@@ -26,7 +26,7 @@ class Pawn:
     - findPath(): Finds the shortest path from the start position to the goal position.
     """
 
-    def __init__(self, startPosition, goal, maze : Maze):
+    def __init__(self, startPosition : tuple, goal : tuple, maze : Maze):
         """
         Initialize the Pawn object.
 
@@ -118,9 +118,11 @@ class Pawn:
         if self.position != self.goal and len(self.__path) > 0:
             nextIndex = self.__path[self.__path.index(self.__maze.findIndexOfVertex(self.position)) + 1]
             self.position = self.__maze.vertices[nextIndex]
-            self.__path = self.__path[1:]  # Remove the previous position from the path
 
-            # Add the current position to the move history
+            # Remove the previous position from the path
+            self.__path = self.__path[1:]
+
+            # Add the current position to the move history.
             self.move_history.append(self.position)
 
     def plot(self):
@@ -133,27 +135,29 @@ class Pawn:
         Returns:
         None
         """
-        # Plot the path if provided
+        # Plot the path if available.
         if self.__path:
             pathCoords = [self.__maze.vertices[i] for i in self.__path]
             path_x = [coord[0] for coord in pathCoords]
             path_y = [coord[1] for coord in pathCoords]
             plt.plot(path_x, path_y, 'b', linewidth=2)
 
-        # Plot the move history if available
+        # Plot the move history if available.
         if self.move_history:
             move_x = [coord[0] for coord in self.move_history]
             move_y = [coord[1] for coord in self.move_history]
             plt.plot(move_x, move_y, 'lightblue', linewidth=1)
 
-        # Plot start marker 
+        # Plot start marker.
         plt.plot(self.position[0], self.position[1], 'go', markersize=10)
 
-        # Plot finish flag
+        # Plot finish flag.
         flag_x = self.goal[0] + 0.2
-        flag_y = self.goal[1] + 0.7  # Adjust the flag height
-        plt.plot([self.goal[0], self.goal[0]], [self.goal[1] + 0.5, self.goal[1] ], color='black', linewidth=3)  # Plot flagpole
-        plt.plot(flag_x, flag_y, marker='>', color='r', markersize=12)  # Plot flag with triangle facing right
+        flag_y = self.goal[1] + 0.7
+        plt.plot(flag_x, flag_y, marker='>', color='r', markersize=12)
+        
+        # Plot flagpole.
+        plt.plot([self.goal[0], self.goal[0]], [self.goal[1] + 0.5, self.goal[1] ], color='black', linewidth=3)
         
     
     def findPath(self):
@@ -166,18 +170,18 @@ class Pawn:
         Returns:
         The shortest path as a list of indices, or None if no valid path is found.
         """
-        # Set the graph, start position, and goal position for the path finder
+        # Set the graph, start position, and goal position for the path finder.
         self.__pathFinder.setGraph(self.__maze.converToGraph())
         self.__pathFinder.setStart(self.position)
         self.__pathFinder.setGoal(self.goal)
         
-        # Get the A* path mapping from the path finder
+        # Get the A* path mapping from the path finder.
         aStarMap = self.__pathFinder.getPathMapping()
         
-        # If no valid path is found, return None
+        # If no valid path is found, return None.
         if aStarMap is None: return None
 
-        # Construct the shortest path from the A* path mapping
+        # Construct the shortest path from the A* path mapping.
         shortestPath = []
         indexOf_startVertex = self.__maze.findIndexOfVertex(self.position)
         indexOf_endVertex = self.__maze.findIndexOfVertex(self.goal)
@@ -189,6 +193,7 @@ class Pawn:
             indexOf_endVertex = temp
         shortestPath.reverse()
 
-        # If the shortest path starts from the start vertex, return the path
+        # If the shortest path starts from the start vertex, return the path.
         if shortestPath[0] == indexOf_startVertex: return shortestPath
-        else: return None  # No valid path found
+        # No valid path found.
+        else: return None

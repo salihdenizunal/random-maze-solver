@@ -2,20 +2,20 @@ import numpy as np
 
 class RandomNumberGenerator:
     """
-    A class that implements a random number generator using the Linear Congruential Generator (LCG) algorithm.
+    A class that implements a random number generator using the LCG2 algorithm.
 
     Attributes:
-        modulus (int): The modulus value for the LCG algorithm.
-        multiplier (int): The multiplier value for the LCG algorithm.
-        increment (int): The increment value for the LCG algorithm.
-        startingVal (int): The starting value for the LCG algorithm.
+        modulus (int): The modulus value for the LCG2 algorithm.
+        multiplier (int): The multiplier value for the LCG2 algorithm.
+        increment (int): The increment value for the LCG2 algorithm.
+        startingVal (int): The starting value for the LCG2 algorithm.
 
     Methods:
         setModulus(modulus): Setter method for the modulus attribute.
         setMultiplier(multiplier): Setter method for the multiplier attribute.
         setIncrement(increment): Setter method for the increment attribute.
         setStartingVal(startingVal): Setter method for the startingVal attribute.
-        generate(): Generates a random number using the LCG algorithm.
+        generate(): Generates a random number using the LCG2 algorithm.
 
     """
 
@@ -24,10 +24,10 @@ class RandomNumberGenerator:
         Initializes a RandomNumberGenerator object.
 
         Args:
-            modulus (int): The modulus value for the LCG algorithm. Default is 2^31-1.
-            multiplier (int): The multiplier value for the LCG algorithm. Default is 16807.
-            increment (int): The increment value for the LCG algorithm. Default is 0.
-            startingVal (int): The starting value for the LCG algorithm. If None, a random starting value is generated.
+            modulus (int): The modulus value for the LCG2 algorithm. Default is 2^31-1.
+            multiplier (int): The multiplier value for the LCG2 algorithm. Default is 16807.
+            increment (int): The increment value for the LCG2 algorithm. Default is 0.
+            startingVal (int): The starting value for the LCG2 algorithm. If None, a random starting value is generated.
 
         """
         self.setModulus(modulus)
@@ -40,7 +40,7 @@ class RandomNumberGenerator:
         Setter method for the modulus attribute.
 
         Args:
-            modulus (int): The modulus value for the LCG algorithm.
+            modulus (int): The modulus value for the LCG2 algorithm.
 
         """
         self.__modulus = modulus
@@ -50,7 +50,7 @@ class RandomNumberGenerator:
         Setter method for the multiplier attribute.
 
         Args:
-            multiplier (int): The multiplier value for the LCG algorithm.
+            multiplier (int): The multiplier value for the LCG2 algorithm.
 
         """
         self.__multiplier = multiplier
@@ -60,7 +60,7 @@ class RandomNumberGenerator:
         Setter method for the increment attribute.
 
         Args:
-            increment (int): The increment value for the LCG algorithm.
+            increment (int): The increment value for the LCG2 algorithm.
 
         """
         self.__increment = increment
@@ -70,7 +70,7 @@ class RandomNumberGenerator:
         Setter method for the startingVal attribute.
 
         Args:
-            startingVal (int): The starting value for the LCG algorithm. If None, a random starting value is generated.
+            startingVal (int): The starting value for the LCG2 algorithm. If None, a random starting value is generated.
 
         """
         if startingVal is None:
@@ -103,7 +103,7 @@ class RandomNumberGenerator:
 
     def generate(self):
         """
-        Generates a random number using the LCG algorithm.
+        Generates a random number using the LCG2 algorithm.
 
         Returns:
             int: The generated random number.
@@ -119,7 +119,7 @@ class RandomNumberGenerator:
     to 0 and should be smaller than or equal to modulus - 1. (0 ≤ X0 ≤ m − 1)"
         assert ((self.__modulus % self.__multiplier) <= np.floor(self.__modulus / self.__multiplier)), "(m mod a) ≤ floor(m / a)"
 
-        # LCG algorithm.
+        # LCG2 algorithm.
         q = self.__modulus // self.__multiplier
         p = self.__modulus % self.__multiplier
         r = self.__multiplier * (self.__startingVal % q) - p * (self.__startingVal // q)
