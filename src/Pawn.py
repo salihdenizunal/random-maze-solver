@@ -1,6 +1,5 @@
 from PathFinder import PathFinder
 from Maze import Maze
-
 import matplotlib.pyplot as plt
 
 class Pawn:
@@ -12,6 +11,7 @@ class Pawn:
     - goal: The goal position of the pawn.
     - maze: The maze object representing the maze.
     - __path: The path of the pawn as a list of indices.
+    - move_history: The history of the pawn's moves as a list of positions.
     - __pathFinder: The path finder object used to find the shortest path.
 
     Methods:
@@ -42,6 +42,7 @@ class Pawn:
         self.goal = goal
         self.setMaze(maze)
         self.setPath([])
+        self.move_history = [startPosition]
         self.__pathFinder = PathFinder(self.__maze.converToGraph(), self.position, self.goal)
     
     def setGoal(self, goal):
@@ -118,6 +119,9 @@ class Pawn:
             nextIndex = self.__path[self.__path.index(self.__maze.findIndexOfVertex(self.position)) + 1]
             self.position = self.__maze.vertices[nextIndex]
 
+            # Add the current position to the move history
+            self.move_history.append(self.position)
+
     def plot(self):
         """
         Plot the pawn's path on a graph.
@@ -134,6 +138,12 @@ class Pawn:
             path_x = [coord[0] for coord in pathCoords]
             path_y = [coord[1] for coord in pathCoords]
             plt.plot(path_x, path_y, 'b', linewidth=2)
+
+        # Plot the move history if available
+        if self.move_history:
+            move_x = [coord[0] for coord in self.move_history]
+            move_y = [coord[1] for coord in self.move_history]
+            plt.plot(move_x, move_y, 'lightblue', linewidth=1)
 
         # Plot start marker 
         plt.plot(self.position[0], self.position[1], 'go', markersize=10)
