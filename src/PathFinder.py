@@ -2,25 +2,75 @@ import math
 from Graph import Graph
 
 class PathFinder:
+    """
+    Class representing a path finder algorithm.
+
+    Attributes:
+        graph (Graph): The graph representing the maze.
+        start (tuple): The starting vertex.
+        goal (tuple): The goal vertex.
+    """
+
     def __init__(self, graph : Graph, start, goal):
+        """
+        Initializes a PathFinder object.
+
+        Args:
+            graph (Graph): The graph representing the maze.
+            start (tuple): The starting vertex.
+            goal (tuple): The goal vertex.
+        """
         self.start = start
         self.goal = goal
         self.setGraph(graph)
     
     def setStart(self, start):
+        """
+        Sets the starting vertex.
+
+        Args:
+            start (tuple): The starting vertex.
+        """
         self.start = start
         
     def setGoal(self, goal):
+        """
+        Sets the goal vertex.
+
+        Args:
+            goal (tuple): The goal vertex.
+        """
         self.goal = goal
            
     def setGraph(self, graph : Graph):
+        """
+        Sets the graph representing the maze.
+
+        Args:
+            graph (Graph): The graph representing the maze.
+        """
         self.graph = graph
     
-    # Heuristic measure takes the distance between two given vertices.
     def __heuristicMeasure(self, v1, v2):
+        """
+        Calculates the heuristic measure between two vertices.
+
+        Args:
+            v1 (tuple): The first vertex.
+            v2 (tuple): The second vertex.
+
+        Returns:
+            float: The heuristic measure.
+        """
         return math.sqrt(pow((v1[0] - v2[0]), 2) + pow((v1[1] - v2[1]), 2))
     
     def getPathMapping(self):
+        """
+        Finds the path mapping from the start vertex to the goal vertex.
+
+        Returns:
+            dict: The path mapping.
+        """
         assert(self.graph.hasVertex(self.start) and self.graph.hasVertex(self.goal))
 
         # pi -> mapping

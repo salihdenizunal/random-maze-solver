@@ -2,16 +2,45 @@ from RandomNumberGenerator import RandomNumberGenerator
 from Maze import Maze
 
 class MazeGenerator:
-    def __init__(self, rows = 15, cols = 15):
+    """
+    This class represents a maze generator.
+
+    Attributes:
+        maze (Maze): The maze object.
+        __randomNumberGenerator (RandomNumberGenerator): The random number generator object.
+    """
+
+    def __init__(self, rows=15, cols=15):
+        """
+        Initializes a MazeGenerator object.
+
+        Args:
+            rows (int): The number of rows in the maze. Default is 15.
+            cols (int): The number of columns in the maze. Default is 15.
+        """
         self.maze = Maze(rows, cols)
         self.__randomNumberGenerator = RandomNumberGenerator()
 
     def __randomItem(self, fromList):
+        """
+        Returns a random item from a given list.
+
+        Args:
+            fromList (list): The list to choose from.
+
+        Returns:
+            object: A random item from the list.
+        """
         randind = (self.__randomNumberGenerator.generate() % len(list(fromList)))
         return list(fromList)[randind]
 
-    # Returns the walls W from the walls of G that builds up a maze.
     def generateMaze(self):
+        """
+        Generates a maze using the randomized Prim's algorithm.
+
+        Returns:
+            Maze: The generated maze.
+        """
         assert(type(self.maze == Maze)), "The self maze should be type Maze."
 
         # Visited cells C from Vertexes of G.
@@ -53,3 +82,4 @@ class MazeGenerator:
             L.remove(l)
 
         self.maze.walls = W
+        return self.maze

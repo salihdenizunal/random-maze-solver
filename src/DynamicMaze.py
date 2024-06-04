@@ -5,27 +5,85 @@ from RandomNumberGenerator import RandomNumberGenerator
 import matplotlib.pyplot as plt
 
 class DynamicMaze(Maze):
-    def __init__(self, rows = 15, cols = 15):
+    """
+    A class that represents a dynamic maze.
+
+    Inherits from the Maze class.
+
+    Attributes:
+        walls (list): A list of walls in the maze.
+        vertices (list): A list of vertices in the maze.
+        pawn (Pawn): The pawn object in the maze.
+        randomNumberGenerator (RandomNumberGenerator): The random number generator object.
+
+    Methods:
+        __init__(rows, cols): Initializes the DynamicMaze object.
+        __removeWall(wall): Removes a wall from the maze.
+        __addWall(wall): Adds a wall to the maze.
+        __createsChain(wall): Checks if adding a wall would create a chain in the maze.
+        updateMaze(updateFactor): Updates the maze by adding or removing walls.
+        plot(): Plots the maze and the pawn.
+    """
+
+    def __init__(self, rows=15, cols=15):
+        """
+        Initialize the DynamicMaze object.
+
+        Parameters:
+        - rows: The number of rows in the maze. Default is 15.
+        - cols: The number of columns in the maze. Default is 15.
+
+        Returns:
+        None
+        """
         super().__init__(rows, cols)
         mazeGenerator = MazeGenerator(rows, cols)
         mazeGenerator.generateMaze()
         self.walls = mazeGenerator.maze.walls
         self.vertices = mazeGenerator.maze.vertices
-        self.pawn = Pawn((0,0), (rows-1, cols-1), self.copy())
+        self.pawn = Pawn((0, 0), (rows - 1, cols - 1), self.copy())
         self.pawn.setPath(self.pawn.findPath())
 
         # Generate a random starting value for the lcg2 function call
         self.randomNumberGenerator = RandomNumberGenerator()
-        
+
     def __removeWall(self, wall):
+        """
+        Remove a wall from the maze.
+
+        Parameters:
+        - wall: The wall to be removed.
+
+        Returns:
+        None
+        """
         if self.hasWall(wall):
             self.walls.remove(wall)
 
     def __addWall(self, wall):
+        """
+        Add a wall to the maze.
+
+        Parameters:
+        - wall: The wall to be added.
+
+        Returns:
+        None
+        """
         if not self.hasWall(wall):
             self.walls.append(wall)
 
     def __createsChain(self, wall):
+        """
+        Check if adding a wall would create a chain in the maze.
+        A chain is created when a vertex becomes isolated from the rest of the maze.
+
+        Parameters:
+        - wall: The wall to be added.
+
+        Returns:
+        - True if adding the wall would create a chain, False otherwise.
+        """
         # Unpack the wall coordinates
         (start, end) = wall
 
@@ -33,7 +91,7 @@ class DynamicMaze(Maze):
         startNeighbors = self.getNeighborVertices(start)
         endNeighbors = self.getNeighborVertices(end)
 
-        # It checks if adding this wall would isolate either the start or end vertex.
+        # Check if adding this wall would isolate either the start or end vertex.
         # If a vertex has only one neighbor (including the other end of the wall being added),
         # adding this wall would isolate it, which is undesirable. In this case, the method 
         # returns True, indicating that adding this wall would create a chain.
@@ -70,6 +128,16 @@ class DynamicMaze(Maze):
         return False  # Adding this wall won't create a chain
 
     def updateMaze(self, updateFactor):
+        """
+        Update the maze by adding or removing walls.
+
+        Parameters:
+        - updateFactor: The number of walls to add or remove.
+
+        Returns:
+        None
+        """
+        # Update the maze by adding or removing walls
         for _ in range(updateFactor):
             # Add or remove walls        
             row = (self.randomNumberGenerator.generate() % (self.getRows() - 1))
@@ -79,7 +147,7 @@ class DynamicMaze(Maze):
             # Randomly select the direction of the end vertex (up, down, left, right)
             directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
             direction = directions[self.randomNumberGenerator.generate() % 4]
-            
+
             end = (start[0] + direction[0], start[1] + direction[1])
             wall = (start, end)
             if self.hasWall(wall):
@@ -92,7 +160,8 @@ class DynamicMaze(Maze):
                     self.pawn.setPath(calculatedPath)
                     self.pawn.setMaze(self.copy())
             else:
-                if self.__createsChain(wall): continue
+                if self.__createsChain(wall):
+                    continue
                 self.__addWall(wall)  # Add wall
 
                 calculatedPath = self.pawn.findPath()
@@ -103,6 +172,13 @@ class DynamicMaze(Maze):
                     self.pawn.setMaze(self.copy())
 
     def plot(self):
+        """
+        Plot the maze and the pawn.
+
+        Returns:
+        None
+        """
+        # Plot the maze and the pawn
         plt.clf()
         super().plot()
         self.pawn.plot()
@@ -110,4 +186,3 @@ class DynamicMaze(Maze):
         plt.axis('square')
         plt.draw()
         plt.pause(0.001)  # Add a small pause to allow for plot updates
-        
