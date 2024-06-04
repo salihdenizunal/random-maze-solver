@@ -1,4 +1,4 @@
-# Random Maze Solver
+# Dynamic Maze Solver
 
 This is a python project that simulates the dynamic maze generation with time-dependent randomness and pathfinding.
 
@@ -20,7 +20,9 @@ To install the project, follow these steps:
 
 1. Clone the repository to your local machine:
 
+```shell
 git clone https://github.com/salihdenizunal/dynamic-maze-solver.git
+```
 
 ## Requirements
 
@@ -30,21 +32,26 @@ git clone https://github.com/salihdenizunal/dynamic-maze-solver.git
 
 Install the required dependencies using pip:
 
+```shell
 pip install -r requirements.txt
+```
 
 ## Usage
 
 To run the simulation, execute the `main.py` script with optional command-line arguments:
 
-python main.py [--rows ROWS] [--cols COLS] [--speed SPEED]
+python main.py [--rows ROWS] [--cols COLS] [--pawnSpeed PAWNSPEED] [--updateFactor UPDATEFACTOR]
 
 - `--rows ROWS`: Number of rows in the maze (default: 12).
 - `--cols COLS`: Number of columns in the maze (default: 12).
-- `--speed SPEED`: Speed of the pawn movement (between 0 and 1, default: 0.1).
+- `--pawnSpeed PAWNSPEED`: Speed of the pawn movement (in seconds per move, default: 0.33333).
+- `--updateFactor UPDATEFACTOR`: Factor of the updates (default: 5).
 
 Example usage:
 
-python main.py --rows 12 --cols 12 --speed 0.2
+```shell
+python .\src\main.py --rows 12 --cols 12 --pawnSpeed 0.5 --updateFactor 3
+```
 
 This will start the simulation of the dynamic maze environment.
 
