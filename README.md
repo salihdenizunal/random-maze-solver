@@ -12,7 +12,8 @@ The aim of this project is to simulate the dynamic maze environment where the ma
 - Dynamic maze mechanisim to add and remove the walls.
 - Path finding algorithms to find the shortest path from the starting point to the goal.
 - Adaptaion of the changing maze environment while finding the path.
-- Visualization of the maze environment and pawn movement.
+- Visualization of the maze environment and pawn movement with the history of the pawn movement.
+- Modifiable pawn speed and update factor for changing maze.
 
 ## Installation
 
@@ -23,6 +24,7 @@ To install the project, follow these steps:
 ```shell
 git clone https://github.com/salihdenizunal/dynamic-maze-solver.git
 ```
+Note: Before the deadline of the MMI513 project, only the people who have the code can use it. So, the git link won't be available till then. 
 
 ## Requirements
 
@@ -44,17 +46,17 @@ python main.py [--rows ROWS] [--cols COLS] [--pawnSpeed PAWNSPEED] [--updateFact
 
 - `--rows ROWS`: Number of rows in the maze (default: 12).
 - `--cols COLS`: Number of columns in the maze (default: 12).
-- `--pawnSpeed PAWNSPEED`: Speed of the pawn movement (in seconds per move, default: 0.33333).
-- `--updateFactor UPDATEFACTOR`: Factor of the updates (default: 5).
+- `--pawnSpeed PAWNSPEED`: Speed of the pawn movement (speed of the pawn in terms of per update, default: 0.33333, means it will move in every 3 updates).
+- `--updateFactor UPDATEFACTOR`: Factor of the updates (factor of the updates, default: 5, means maximum 5 walls will be updated in each update).
 
 Example usage:
 
 ```shell
-python .\src\main.py --rows 12 --cols 12 --pawnSpeed 0.5 --updateFactor 3
+python .\src\main.py --rows 12 --cols 12 --pawnSpeed 0.5 --updateFactor 15
 ```
 
-This will start the simulation of the dynamic maze environment.
+This will start the simulation of the dynamic maze environment. The example will have 12x12 maze. The pawn move in every two iterations. In each iteration, there might be maximum 15 walls can be modified (added or deleted).
 
 ## Acknowledgements
 
-- This project was inspired by MMI 513 Term Project, Spring 2024.
+- This project was inspired by MMI513 Term Project, Spring 2024.
